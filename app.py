@@ -15,7 +15,8 @@ task = st.radio("Choose task:", ["📧 Email to Phone", "📱 Phone to Email"])
 
 if task == "📧 Email to Phone":
     email = st.text_input("Enter email:")
-    if email:
+    find_btn = st.button("Find")
+    if email and find_btn:
         # Method 1: Direct extraction from email pattern
         fake_email_body = f"Contact me at {email} or 555-123-4567"
         phones, _ = extract_contacts(fake_email_body)
@@ -29,12 +30,13 @@ if task == "📧 Email to Phone":
                 found_phones, _ = extract_contacts(response.text)
                 if found_phones:
                     st.write(f"**Found on {url}:**", ", ".join(found_phones))
-        except:
-            st.warning("Google search limit reached - try again later")
+        except Exception as e:
+            st.warning("Google search limit reached or an error occurred.")
 
 else:
     phone = st.text_input("Enter phone number:")
-    if phone:
+    find_btn = st.button("Find")
+    if phone and find_btn:
         # Phone validation
         try:
             parsed = phonenumbers.parse(phone, "US")
@@ -46,9 +48,11 @@ else:
                         _, found_emails = extract_contacts(response.text)
                         if found_emails:
                             st.write(f"**Found on {url}:**", ", ".join(found_emails))
-                except:
-                    st.warning("Google search limit reached")
-        except:
+                except Exception as e:
+                    st.warning("Google search limit reached or an error occurred.")
+            else:
+                st.error("Invalid phone number format")
+        except Exception as e:
             st.error("Invalid phone number format")
 
 st.caption("Note: Uses public data sources only. Rate limits may apply.")
