@@ -2,3 +2,4 @@ streamlit
 phonenumbers
 requests
 googlesearch-python
+beautifulsoup4
