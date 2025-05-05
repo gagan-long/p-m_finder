@@ -35,7 +35,7 @@ task = st.radio("Choose task:", ["📧 Email to Phone", "📱 Phone to Email"])
 
 with st.form("contact_form"):
     if task == "📧 Email to Phone":
-        email = st.text_input("Enter email:")
+        email = st.text_input("Enter email:", placeholder="e.g. john.doe@example.com")
         submitted = st.form_submit_button("Find")
         if submitted:
             if not validate_email(email):
@@ -58,14 +58,14 @@ with st.form("contact_form"):
                                 if phones:
                                     found_phones.update(phones)
                                     st.info(f"Found on {url}: {', '.join(phones)}")
-                            except Exception as e:
+                            except Exception:
                                 st.warning(f"Could not access {url}")
                         if not found_phones:
                             st.info("No phone numbers found for this email in public sources.")
-                    except Exception as e:
+                    except Exception:
                         st.warning("Google search limit reached or an error occurred.")
     else:
-        phone = st.text_input("Enter phone number:")
+        phone = st.text_input("Enter phone number:", placeholder="e.g. +1 555-123-4567 or 5551234567")
         submitted = st.form_submit_button("Find")
         if submitted:
             if not validate_phone(phone):
@@ -82,11 +82,11 @@ with st.form("contact_form"):
                                 if emails:
                                     found_emails.update(emails)
                                     st.info(f"Found on {url}: {', '.join(emails)}")
-                            except Exception as e:
+                            except Exception:
                                 st.warning(f"Could not access {url}")
                         if not found_emails:
                             st.info("No emails found for this phone number in public sources.")
-                    except Exception as e:
+                    except Exception:
                         st.warning("Google search limit reached or an error occurred.")
 
 st.caption("Note: Uses public data sources only. Rate limits may apply. For best results, use well-known emails or phone numbers.")
